@@ -12,13 +12,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kotlinflowdemo.R
 import com.example.kotlinflowdemo.databinding.FragmentNewsBinding
 import com.example.kotlinflowdemo.network.Article
+import com.example.kotlinflowdemo.screen.adapter.NewsAdapter
 import com.example.kotlinflowdemo.viewmodel.MainViewModel
-import com.example.kotlinflowdemo.viewmodel.NewsUiState
+import com.example.kotlinflowdemo.viewmodel.Result
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-
 
 class NewsFragment : Fragment() {
 
@@ -30,7 +31,6 @@ class NewsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentNewsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -42,22 +42,37 @@ class NewsFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mViewModel.newsFlow.collect { newsFlow ->
                     when (newsFlow) {
-                        is NewsUiState.Success -> showNews(newsFlow.news)
-                        is NewsUiState.Error -> showError(newsFlow.exception)
+                        is Result.Success -> showNews(newsFlow.news)
+                        is Result.Error -> if (newsFlow.errorMessage != null) showError(newsFlow.errorMessage)
+                        is Result.Loading -> showLoading()
                     }
                 }
             }
+        }
+
+        binding.buttonReload.setOnClickListener {
+            mViewModel.reloadNews()
         }
     }
 
     private fun showNews(newsList: List<Article>) {
         // TODO: add update logic
+        hideLoading()
         binding.rvNews.addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.VERTICAL))
         binding.rvNews.adapter = NewsAdapter(newsList)
     }
 
-    private fun showError(e: Throwable) {
-        Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+    private fun showError(e: String) {
+        hideLoading()
+        Toast.makeText(requireContext(), "Error: $e", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showLoading() {
+        LoadingFragment.showLoading(parentFragmentManager, R.id.nav_host_fragment_content_main)
+    }
+
+    private fun hideLoading() {
+        LoadingFragment.hideLoading(parentFragmentManager)
     }
 
     override fun onDestroyView() {

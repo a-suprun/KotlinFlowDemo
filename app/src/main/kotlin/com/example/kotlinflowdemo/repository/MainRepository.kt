@@ -1,21 +1,23 @@
 package com.example.kotlinflowdemo.repository
 
-import com.example.kotlinflowdemo.network.NewsResponse
 import com.example.kotlinflowdemo.network.RetrofitClient
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import com.example.kotlinflowdemo.viewmodel.Result
+import retrofit2.HttpException
 
 internal class MainRepository {
 
     private val mNewsApi = RetrofitClient.getNewsApi()
 
-    val topHeadlines: Flow<NewsResponse> = flow {
-        emit(getTopHeadlines())
-    }.flowOn(Dispatchers.IO)
+//    val topHeadlines: Flow<NewsResponse> = flow {
+//        emit(getTopHeadlines())
+//    }.flowOn(Dispatchers.IO)
 
-    private suspend fun getTopHeadlines(): NewsResponse =
-           mNewsApi.getTopHeadlines()
+    suspend fun getTopHeadlines(): Result {
+        return try {
+            Result.Success(mNewsApi.getTopHeadlines().articles)
+        } catch (e: HttpException) {
+            Result.Error(e.message())
+        }
+    }
 
 }

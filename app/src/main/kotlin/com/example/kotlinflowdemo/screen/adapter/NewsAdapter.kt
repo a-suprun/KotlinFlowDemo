@@ -1,4 +1,4 @@
-package com.example.kotlinflowdemo.screen
+package com.example.kotlinflowdemo.screen.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
