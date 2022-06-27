@@ -58,7 +58,6 @@ class NewsFragment : Fragment() {
     private fun showNews(newsList: List<Article>) {
         // TODO: add update logic
         hideLoading()
-        binding.rvNews.addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.VERTICAL))
         binding.rvNews.adapter = NewsAdapter(newsList)
     }
 

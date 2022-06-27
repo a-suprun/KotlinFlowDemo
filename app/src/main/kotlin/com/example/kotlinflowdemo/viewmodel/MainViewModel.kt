@@ -21,18 +21,11 @@ internal class MainViewModel : ViewModel() {
             _newsFlow.update {
                 mRepository.getTopHeadlines()
             }
-//            mRepository.topHeadlines
-//                .map { it.articles }
-//                .catch { error ->
-//                    _newsFlow.value = NewsUiState.Error(error)
-//                }
-//                .collect { news: List<Article> ->
-//                    _newsFlow.value = NewsUiState.Success(news)
-//                }
         }
     }
 
     fun reloadNews() {
+        _newsFlow.value = Result.Loading(null)
         viewModelScope.launch {
             _newsFlow.update {
                 mRepository.getTopHeadlines()
