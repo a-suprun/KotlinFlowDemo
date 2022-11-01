@@ -1,20 +1,18 @@
 package com.example.kotlinflowdemo.screen
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinflowdemo.R
 import com.example.kotlinflowdemo.databinding.FragmentNewsBinding
-import com.example.kotlinflowdemo.network.Article
+import com.example.kotlinflowdemo.network.model.Article
 import com.example.kotlinflowdemo.screen.adapter.NewsAdapter
 import com.example.kotlinflowdemo.viewmodel.MainViewModel
 import com.example.kotlinflowdemo.viewmodel.Result
@@ -56,9 +54,12 @@ class NewsFragment : Fragment() {
     }
 
     private fun showNews(newsList: List<Article>) {
-        // TODO: add update logic
         hideLoading()
-        binding.rvNews.adapter = NewsAdapter(newsList)
+        if (binding.rvNews.adapter == null) {
+            binding.rvNews.adapter = NewsAdapter(newsList.toMutableList())
+        } else {
+            (binding.rvNews.adapter as NewsAdapter).updateNewsList(newsList)
+        }
     }
 
     private fun showError(e: String) {

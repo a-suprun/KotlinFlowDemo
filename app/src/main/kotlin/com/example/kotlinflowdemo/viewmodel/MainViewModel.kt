@@ -2,7 +2,7 @@ package com.example.kotlinflowdemo.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.kotlinflowdemo.network.Article
+import com.example.kotlinflowdemo.network.model.Article
 import com.example.kotlinflowdemo.repository.MainRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

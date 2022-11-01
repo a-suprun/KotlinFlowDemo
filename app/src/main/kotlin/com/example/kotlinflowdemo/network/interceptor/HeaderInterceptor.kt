@@ -1,4 +1,4 @@
-package com.example.kotlinflowdemo.network
+package com.example.kotlinflowdemo.network.interceptor
 
 import com.example.kotlinflowdemo.BuildConfig
 import okhttp3.Interceptor

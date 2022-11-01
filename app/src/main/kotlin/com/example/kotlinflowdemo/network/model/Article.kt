@@ -1,4 +1,4 @@
-package com.example.kotlinflowdemo.network
+package com.example.kotlinflowdemo.network.model
 
 data class Article(
     val source: Source?,
