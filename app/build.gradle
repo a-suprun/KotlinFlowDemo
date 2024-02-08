@@ -5,9 +5,9 @@ plugins {
     id 'kotlin-kapt'
 }
 
-def apikeyPropertiesFile = rootProject.file("apikey.properties")
-def apikeyProperties = new Properties()
-apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+//def apikeyPropertiesFile = rootProject.file("apikey.properties")
+//def apikeyProperties = new Properties()
+//apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
 
 android {
     compileSdk 32
@@ -26,14 +26,14 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField ("String", "API_KEY", apikeyProperties['API_KEY'])
-            buildConfigField ("String", "BASE_URL", apikeyProperties['BASE_URL'])
+//            buildConfigField ("String", "API_KEY", apikeyProperties['API_KEY'])
+//            buildConfigField ("String", "BASE_URL", apikeyProperties['BASE_URL'])
         }
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "API_KEY", apikeyProperties['API_KEY'])
-            buildConfigField ("String", "BASE_URL", apikeyProperties['BASE_URL'])
+//            buildConfigField("String", "API_KEY", apikeyProperties['API_KEY'])
+//            buildConfigField ("String", "BASE_URL", apikeyProperties['BASE_URL'])
         }
     }
 
